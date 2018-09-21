@@ -11,7 +11,7 @@ namespace YouStartInATavern.Framework
             public readonly int Length;
             public readonly ComponentArray<Move2D> Move;
             public ComponentArray<Position2D> Position;
-            public ComponentArray<Heading2D> Heading;
+            public readonly ComponentArray<BoxCollider2D> Collider;
         }
 
         [ Inject ]
@@ -25,20 +25,25 @@ namespace YouStartInATavern.Framework
             {
                 Move2D move = moveData.Move[ i ];
                 Position2D position = moveData.Position[ i ];
-                Heading2D heading = moveData.Heading[ i ];
-
                 
+                if( move.Value.x != 0 )
+                    MoveHorizontally( ref move.Value );
+
+                if( move.Value.y != 0 )
+                    MoveVertically( ref move.Value );
+
+                position.Value += move.Value * deltaTime;
             }
         }
 
         private void MoveHorizontally( ref float2 _delta )
         {
-
+            //TODO : CheckRaycasts and alter delta based on those ...things
         }
 
         private void MoveVertically( ref float2 _delta )
         {
-            
+            //TODO : CheckRaycasts and alter delta based on those ...things
         }
     }
 }

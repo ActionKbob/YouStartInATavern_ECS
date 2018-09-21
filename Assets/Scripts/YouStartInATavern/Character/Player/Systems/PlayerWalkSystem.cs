@@ -8,7 +8,7 @@ namespace YouStartInATavern.Character.Player
     {
         public struct WalkData
         {
-            public readonly int Length;
+            public readonly EntityArray Entities;
             public readonly ComponentArray<Walking> Walking;
             public readonly ComponentArray<PlayerInput> Input;
             public ComponentArray<Move2D> Move;
@@ -21,12 +21,17 @@ namespace YouStartInATavern.Character.Player
         {
             float deltaTime = Time.deltaTime;
 
-            for( int i = 0; i < walkData.Length; i++ )
+            for( int i = 0; i < walkData.Entities.Length; i++ )
             {
                 PlayerInput input = walkData.Input[ i ];
                 Move2D move = walkData.Move[ i ];
 
                 move.Value = input.Move * 10; //TODO : Store speed somewhere so it's not an arbitrary number. Perhaps on the player?
+
+                if( input.Dodge )
+                {
+                    PostUpdateCommands.RemoveComponent<Walking>( walkData.Entities[i] );
+                }
             }
         }
     }
